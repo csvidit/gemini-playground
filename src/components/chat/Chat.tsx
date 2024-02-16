@@ -4,11 +4,13 @@ import { useChat } from "ai/react";
 import Button from "../Button";
 import UserMessage from "./UserMessage";
 import AIMessage from "./AIMessage";
-import { PiArrowRightDuotone } from "react-icons/pi";
+import { PiCaretRightBold } from "react-icons/pi";
 import { useEffect, useRef } from "react";
+import { BounceLoader, ClipLoader } from "react-spinners";
 
 const Chat = () => {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const Chat = () => {
 
   return (
     <section className="w-full min-w-full min-h-full flex flex-col gap-2 lg:gap-4 items-center">
-      <div className="w-full min-w-full min-h-full flex flex-col gap-2 lg:gap-4 items-center">
+      <div className="w-full min-w-full min-h-full flex flex-col gap-2 lg:gap-4 items-center mb-[200px]">
         {messages.map((m) => (
           <div
             key={m.id}
@@ -35,7 +37,8 @@ const Chat = () => {
           </div>
         ))}
       </div>
-      <div className="w-full px-8 lg:px-16 bottom-8 mt-8 lg:mt-16">
+      <div ref={ref} />
+      <div className="fixed w-full px-8 lg:px-16 bottom-8 mt-8 lg:mt-16">
         <form
           onSubmit={handleSubmit}
           onKeyDown={(e) => {
@@ -49,7 +52,7 @@ const Chat = () => {
           <textarea
             value={input}
             maxLength={1000}
-            rows={4}
+            rows={1}
             required
             autoFocus
             autoComplete="off"
@@ -57,11 +60,16 @@ const Chat = () => {
             className="p-4 lg:p-8 border-2 focus:ring-offset-2 focus:ring-0 focus:outline-none focus:border-blue-500 rounded-md w-full bg-transparent border-transparent overflow-scroll"
             onChange={handleInputChange}
           ></textarea>
-          <Button onClick={handleSubmit}>
-            <PiArrowRightDuotone />
-          </Button>
+          {isLoading ? (
+            <div className="px-4 py-2 mr-4 rounded-md bg-transparent">
+              <ClipLoader size={20} color="#0000ff" />
+            </div>
+          ) : (
+            <Button onClick={handleSubmit} className="p-2 mr-4">
+              Send <PiCaretRightBold />
+            </Button>
+          )}
         </form>
-        <div ref={ref} />
       </div>
     </section>
   );
