@@ -3,7 +3,6 @@ import { Figtree } from "next/font/google";
 import "./globals.css";
 import MainContainer from "@/components/MainContainer";
 import Header from "@/components/header/Header";
-import Footer from "@/components/footer/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
 const figtree = Figtree({ subsets: ["latin"] });
